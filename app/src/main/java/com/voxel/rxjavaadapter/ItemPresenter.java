@@ -24,8 +24,14 @@ public class ItemPresenter {
     public void bind(ItemViewHolder holder) {
         mBoundViewHolder = holder;
         mBoundViewHolder.bindPresenter(this);
-        mBoundViewHolder.clear();
+        mBoundViewHolder.clearValue();
 
+
+        // Add it to the set of disposables to be cleared upon unbind. This will sever any
+        // events that come after the viewholder has been unbound.
+        //
+        // Do not set an observeOn here, as observeOn will force the observation
+        // to be queued onto the looper rather than execute synchronously.
         mDisposables.add(
                 mItemModel.getObservable()
                         .subscribe(value -> {
@@ -33,6 +39,7 @@ public class ItemPresenter {
                         }));
     }
 
+    // Sever the connection between ViewHolder and Presenter.
     public void unbind(ItemViewHolder holder) {
         if (mBoundViewHolder == holder) {
             mDisposables.clear();

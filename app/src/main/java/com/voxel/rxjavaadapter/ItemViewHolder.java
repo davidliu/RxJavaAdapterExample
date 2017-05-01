@@ -43,7 +43,7 @@ public class ItemViewHolder extends RecyclerView.ViewHolder {
         mTextView.setText(value + "");
     }
 
-    public void clear() {
+    public void clearValue() {
         mTextView.setText("");
     }
 }
